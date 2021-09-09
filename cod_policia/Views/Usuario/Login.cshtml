@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+@{
+    if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-warning">@ViewBag.Message</div>
+    }
+}
+
+<div class="form-horizontal">
+    <form action="/Usuario/Login" method="post">
+        <section class="form-login">
+            <h5>Inicia Sesión</h5>
+            <input class="controls" type="text" name="user" value"" placeholder="Usuario" />
+            <input class="controls" type="password" name="password" placeholder="Contraseña" />
+            <input class="buttons" type="submit" name="Ingresar" />
+        </section>
+    </form>
+</div>
+

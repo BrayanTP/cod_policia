@@ -1,0 +1,671 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="codigo_policiaModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="articulo">
+          <Key>
+            <PropertyRef Name="idarticulo" />
+          </Key>
+          <Property Name="idarticulo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_articulo" Type="varchar" MaxLength="95" Nullable="false" />
+          <Property Name="texto_articulo" Type="longtext" Nullable="false" />
+          <Property Name="estado" Type="bool" Nullable="false" />
+          <Property Name="idtitulo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="libro">
+          <Key>
+            <PropertyRef Name="idlibro" />
+          </Key>
+          <Property Name="idlibro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_libro" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="noticia">
+          <Key>
+            <PropertyRef Name="idnoticia" />
+          </Key>
+          <Property Name="idnoticia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_noticia" Type="varchar" MaxLength="95" Nullable="false" />
+          <Property Name="texto_notica" Type="longtext" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="estado" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="requisitos">
+          <Key>
+            <PropertyRef Name="idrequisitos" />
+          </Key>
+          <Property Name="idrequisitos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_requisitos" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="descripcion_requisitos" Type="mediumtext" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tipo_usuario">
+          <Key>
+            <PropertyRef Name="idtipo_usuario" />
+          </Key>
+          <Property Name="idtipo_usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_tipo_usuario" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="titulo">
+          <Key>
+            <PropertyRef Name="idtitulo" />
+          </Key>
+          <Property Name="idtitulo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_titulo" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="idlibro" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tramite">
+          <Key>
+            <PropertyRef Name="idtramite" />
+          </Key>
+          <Property Name="idtramite" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_tramite" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="texto_tramite" Type="mediumtext" Nullable="false" />
+          <Property Name="id_titulo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tramite_requisito">
+          <Key>
+            <PropertyRef Name="id_tramite" />
+            <PropertyRef Name="id_requisito" />
+          </Key>
+          <Property Name="id_tramite" Type="int" Nullable="false" />
+          <Property Name="id_requisito" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="idusuario" />
+          </Key>
+          <Property Name="idusuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreUsuario" Type="varchar" MaxLength="85" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="85" Nullable="false" />
+          <Property Name="contraseña" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuario_articulo">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+            <PropertyRef Name="id_articulo" />
+          </Key>
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="id_articulo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuario_noticia">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+            <PropertyRef Name="id_noticia" />
+          </Key>
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="id_noticia" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuario_tipo_usuario">
+          <Key>
+            <PropertyRef Name="idusuario" />
+            <PropertyRef Name="idtipo_usuario" />
+          </Key>
+          <Property Name="idusuario" Type="int" Nullable="false" />
+          <Property Name="idtipo_usuario" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuario_tramite">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+            <PropertyRef Name="id_tramite" />
+          </Key>
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="id_tramite" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_articulo_titulo">
+          <End Role="titulo" Type="Self.titulo" Multiplicity="1" />
+          <End Role="articulo" Type="Self.articulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="titulo">
+              <PropertyRef Name="idtitulo" />
+            </Principal>
+            <Dependent Role="articulo">
+              <PropertyRef Name="idtitulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_articulo_usuario_1">
+          <End Role="articulo" Type="Self.articulo" Multiplicity="1" />
+          <End Role="usuario_articulo" Type="Self.usuario_articulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="articulo">
+              <PropertyRef Name="idarticulo" />
+            </Principal>
+            <Dependent Role="usuario_articulo">
+              <PropertyRef Name="id_articulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_noticia_usuario">
+          <End Role="noticia" Type="Self.noticia" Multiplicity="1" />
+          <End Role="usuario_noticia" Type="Self.usuario_noticia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="noticia">
+              <PropertyRef Name="idnoticia" />
+            </Principal>
+            <Dependent Role="usuario_noticia">
+              <PropertyRef Name="id_noticia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_requisito_tramite">
+          <End Role="requisitos" Type="Self.requisitos" Multiplicity="1" />
+          <End Role="tramite_requisito" Type="Self.tramite_requisito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="requisitos">
+              <PropertyRef Name="idrequisitos" />
+            </Principal>
+            <Dependent Role="tramite_requisito">
+              <PropertyRef Name="id_requisito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tipo_usuario">
+          <End Role="tipo_usuario" Type="Self.tipo_usuario" Multiplicity="1" />
+          <End Role="usuario_tipo_usuario" Type="Self.usuario_tipo_usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_usuario">
+              <PropertyRef Name="idtipo_usuario" />
+            </Principal>
+            <Dependent Role="usuario_tipo_usuario">
+              <PropertyRef Name="idtipo_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_titulo_libro">
+          <End Role="libro" Type="Self.libro" Multiplicity="1" />
+          <End Role="titulo" Type="Self.titulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="libro">
+              <PropertyRef Name="idlibro" />
+            </Principal>
+            <Dependent Role="titulo">
+              <PropertyRef Name="idlibro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tramite_requisito_1">
+          <End Role="tramite" Type="Self.tramite" Multiplicity="1" />
+          <End Role="tramite_requisito" Type="Self.tramite_requisito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tramite">
+              <PropertyRef Name="idtramite" />
+            </Principal>
+            <Dependent Role="tramite_requisito">
+              <PropertyRef Name="id_tramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tramite_titulo">
+          <End Role="titulo" Type="Self.titulo" Multiplicity="1" />
+          <End Role="tramite" Type="Self.tramite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="titulo">
+              <PropertyRef Name="idtitulo" />
+            </Principal>
+            <Dependent Role="tramite">
+              <PropertyRef Name="id_titulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tramite_usuario_1">
+          <End Role="tramite" Type="Self.tramite" Multiplicity="1" />
+          <End Role="usuario_tramite" Type="Self.usuario_tramite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tramite">
+              <PropertyRef Name="idtramite" />
+            </Principal>
+            <Dependent Role="usuario_tramite">
+              <PropertyRef Name="id_tramite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="usuario_tipo_usuario" Type="Self.usuario_tipo_usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="idusuario" />
+            </Principal>
+            <Dependent Role="usuario_tipo_usuario">
+              <PropertyRef Name="idusuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario_articulo_1">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="usuario_articulo" Type="Self.usuario_articulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="idusuario" />
+            </Principal>
+            <Dependent Role="usuario_articulo">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario_noticia">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="usuario_noticia" Type="Self.usuario_noticia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="idusuario" />
+            </Principal>
+            <Dependent Role="usuario_noticia">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario_tramite_1">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="usuario_tramite" Type="Self.usuario_tramite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="idusuario" />
+            </Principal>
+            <Dependent Role="usuario_tramite">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="codigo_policiaModelStoreContainer">
+          <EntitySet Name="articulo" EntityType="Self.articulo" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="libro" EntityType="Self.libro" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="noticia" EntityType="Self.noticia" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="requisitos" EntityType="Self.requisitos" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="tipo_usuario" EntityType="Self.tipo_usuario" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="titulo" EntityType="Self.titulo" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="tramite" EntityType="Self.tramite" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="tramite_requisito" EntityType="Self.tramite_requisito" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="usuario_articulo" EntityType="Self.usuario_articulo" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="usuario_noticia" EntityType="Self.usuario_noticia" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="usuario_tipo_usuario" EntityType="Self.usuario_tipo_usuario" Schema="codigo_policia" store:Type="Tables" />
+          <EntitySet Name="usuario_tramite" EntityType="Self.usuario_tramite" Schema="codigo_policia" store:Type="Tables" />
+          <AssociationSet Name="FK_articulo_titulo" Association="Self.FK_articulo_titulo">
+            <End Role="titulo" EntitySet="titulo" />
+            <End Role="articulo" EntitySet="articulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_articulo_usuario_1" Association="Self.FK_articulo_usuario_1">
+            <End Role="articulo" EntitySet="articulo" />
+            <End Role="usuario_articulo" EntitySet="usuario_articulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_noticia_usuario" Association="Self.FK_noticia_usuario">
+            <End Role="noticia" EntitySet="noticia" />
+            <End Role="usuario_noticia" EntitySet="usuario_noticia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_requisito_tramite" Association="Self.FK_requisito_tramite">
+            <End Role="requisitos" EntitySet="requisitos" />
+            <End Role="tramite_requisito" EntitySet="tramite_requisito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tipo_usuario" Association="Self.FK_tipo_usuario">
+            <End Role="tipo_usuario" EntitySet="tipo_usuario" />
+            <End Role="usuario_tipo_usuario" EntitySet="usuario_tipo_usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_titulo_libro" Association="Self.FK_titulo_libro">
+            <End Role="libro" EntitySet="libro" />
+            <End Role="titulo" EntitySet="titulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tramite_requisito_1" Association="Self.FK_tramite_requisito_1">
+            <End Role="tramite" EntitySet="tramite" />
+            <End Role="tramite_requisito" EntitySet="tramite_requisito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tramite_titulo" Association="Self.FK_tramite_titulo">
+            <End Role="titulo" EntitySet="titulo" />
+            <End Role="tramite" EntitySet="tramite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tramite_usuario_1" Association="Self.FK_tramite_usuario_1">
+            <End Role="tramite" EntitySet="tramite" />
+            <End Role="usuario_tramite" EntitySet="usuario_tramite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario" Association="Self.FK_usuario">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="usuario_tipo_usuario" EntitySet="usuario_tipo_usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario_articulo_1" Association="Self.FK_usuario_articulo_1">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="usuario_articulo" EntitySet="usuario_articulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario_noticia" Association="Self.FK_usuario_noticia">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="usuario_noticia" EntitySet="usuario_noticia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario_tramite_1" Association="Self.FK_usuario_tramite_1">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="usuario_tramite" EntitySet="usuario_tramite" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="codigo_policiaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="articulo">
+          <Key>
+            <PropertyRef Name="idarticulo" />
+          </Key>
+          <Property Name="idarticulo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_articulo" Type="String" MaxLength="95" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="texto_articulo" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
+          <Property Name="idtitulo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="titulo" Relationship="Self.FK_articulo_titulo" FromRole="articulo" ToRole="titulo" />
+          <NavigationProperty Name="usuario" Relationship="Self.usuario_articulo" FromRole="articulo" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="libro">
+          <Key>
+            <PropertyRef Name="idlibro" />
+          </Key>
+          <Property Name="idlibro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_libro" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="titulo" Relationship="Self.FK_titulo_libro" FromRole="libro" ToRole="titulo" />
+        </EntityType>
+        <EntityType Name="noticia">
+          <Key>
+            <PropertyRef Name="idnoticia" />
+          </Key>
+          <Property Name="idnoticia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_noticia" Type="String" MaxLength="95" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="texto_notica" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="usuario" Relationship="Self.usuario_noticia" FromRole="noticia" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="requisitos">
+          <Key>
+            <PropertyRef Name="idrequisitos" />
+          </Key>
+          <Property Name="idrequisitos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_requisitos" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion_requisitos" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tramite" Relationship="Self.tramite_requisito" FromRole="requisitos" ToRole="tramite" />
+        </EntityType>
+        <EntityType Name="tipo_usuario">
+          <Key>
+            <PropertyRef Name="idtipo_usuario" />
+          </Key>
+          <Property Name="idtipo_usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_tipo_usuario" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="usuario" Relationship="Self.usuario_tipo_usuario" FromRole="tipo_usuario" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="titulo">
+          <Key>
+            <PropertyRef Name="idtitulo" />
+          </Key>
+          <Property Name="idtitulo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_titulo" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idlibro" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="articulo" Relationship="Self.FK_articulo_titulo" FromRole="titulo" ToRole="articulo" />
+          <NavigationProperty Name="libro" Relationship="Self.FK_titulo_libro" FromRole="titulo" ToRole="libro" />
+          <NavigationProperty Name="tramite" Relationship="Self.FK_tramite_titulo" FromRole="titulo" ToRole="tramite" />
+        </EntityType>
+        <EntityType Name="tramite">
+          <Key>
+            <PropertyRef Name="idtramite" />
+          </Key>
+          <Property Name="idtramite" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_tramite" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="texto_tramite" Type="String" MaxLength="16777215" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_titulo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="titulo" Relationship="Self.FK_tramite_titulo" FromRole="tramite" ToRole="titulo" />
+          <NavigationProperty Name="requisitos" Relationship="Self.tramite_requisito" FromRole="tramite" ToRole="requisitos" />
+          <NavigationProperty Name="usuario" Relationship="Self.usuario_tramite" FromRole="tramite" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="idusuario" />
+          </Key>
+          <Property Name="idusuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreUsuario" Type="String" MaxLength="85" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="correo" Type="String" MaxLength="85" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contraseña" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="articulo" Relationship="Self.usuario_articulo" FromRole="usuario" ToRole="articulo" />
+          <NavigationProperty Name="noticia" Relationship="Self.usuario_noticia" FromRole="usuario" ToRole="noticia" />
+          <NavigationProperty Name="tipo_usuario" Relationship="Self.usuario_tipo_usuario" FromRole="usuario" ToRole="tipo_usuario" />
+          <NavigationProperty Name="tramite" Relationship="Self.usuario_tramite" FromRole="usuario" ToRole="tramite" />
+        </EntityType>
+        <Association Name="FK_articulo_titulo">
+          <End Role="titulo" Type="Self.titulo" Multiplicity="1" />
+          <End Role="articulo" Type="Self.articulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="titulo">
+              <PropertyRef Name="idtitulo" />
+            </Principal>
+            <Dependent Role="articulo">
+              <PropertyRef Name="idtitulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_titulo_libro">
+          <End Role="libro" Type="Self.libro" Multiplicity="1" />
+          <End Role="titulo" Type="Self.titulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="libro">
+              <PropertyRef Name="idlibro" />
+            </Principal>
+            <Dependent Role="titulo">
+              <PropertyRef Name="idlibro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tramite_titulo">
+          <End Role="titulo" Type="Self.titulo" Multiplicity="1" />
+          <End Role="tramite" Type="Self.tramite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="titulo">
+              <PropertyRef Name="idtitulo" />
+            </Principal>
+            <Dependent Role="tramite">
+              <PropertyRef Name="id_titulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tramite_requisito">
+          <End Role="requisitos" Type="Self.requisitos" Multiplicity="*" />
+          <End Role="tramite" Type="Self.tramite" Multiplicity="*" />
+        </Association>
+        <Association Name="usuario_articulo">
+          <End Role="articulo" Type="Self.articulo" Multiplicity="*" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+        </Association>
+        <Association Name="usuario_noticia">
+          <End Role="noticia" Type="Self.noticia" Multiplicity="*" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+        </Association>
+        <Association Name="usuario_tipo_usuario">
+          <End Role="tipo_usuario" Type="Self.tipo_usuario" Multiplicity="*" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+        </Association>
+        <Association Name="usuario_tramite">
+          <End Role="tramite" Type="Self.tramite" Multiplicity="*" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="codigo_policiaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="articulo" EntityType="Self.articulo" />
+          <EntitySet Name="libro" EntityType="Self.libro" />
+          <EntitySet Name="noticia" EntityType="Self.noticia" />
+          <EntitySet Name="requisitos" EntityType="Self.requisitos" />
+          <EntitySet Name="tipo_usuario" EntityType="Self.tipo_usuario" />
+          <EntitySet Name="titulo" EntityType="Self.titulo" />
+          <EntitySet Name="tramite" EntityType="Self.tramite" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" />
+          <AssociationSet Name="FK_articulo_titulo" Association="Self.FK_articulo_titulo">
+            <End Role="titulo" EntitySet="titulo" />
+            <End Role="articulo" EntitySet="articulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_titulo_libro" Association="Self.FK_titulo_libro">
+            <End Role="libro" EntitySet="libro" />
+            <End Role="titulo" EntitySet="titulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tramite_titulo" Association="Self.FK_tramite_titulo">
+            <End Role="titulo" EntitySet="titulo" />
+            <End Role="tramite" EntitySet="tramite" />
+          </AssociationSet>
+          <AssociationSet Name="tramite_requisito" Association="Self.tramite_requisito">
+            <End Role="requisitos" EntitySet="requisitos" />
+            <End Role="tramite" EntitySet="tramite" />
+          </AssociationSet>
+          <AssociationSet Name="usuario_articulo" Association="Self.usuario_articulo">
+            <End Role="articulo" EntitySet="articulo" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="usuario_noticia" Association="Self.usuario_noticia">
+            <End Role="noticia" EntitySet="noticia" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="usuario_tipo_usuario" Association="Self.usuario_tipo_usuario">
+            <End Role="tipo_usuario" EntitySet="tipo_usuario" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="usuario_tramite" Association="Self.usuario_tramite">
+            <End Role="tramite" EntitySet="tramite" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="codigo_policiaModelStoreContainer" CdmEntityContainer="codigo_policiaEntities">
+          <EntitySetMapping Name="articulo">
+            <EntityTypeMapping TypeName="codigo_policiaModel.articulo">
+              <MappingFragment StoreEntitySet="articulo">
+                <ScalarProperty Name="idarticulo" ColumnName="idarticulo" />
+                <ScalarProperty Name="nombre_articulo" ColumnName="nombre_articulo" />
+                <ScalarProperty Name="texto_articulo" ColumnName="texto_articulo" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="idtitulo" ColumnName="idtitulo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="libro">
+            <EntityTypeMapping TypeName="codigo_policiaModel.libro">
+              <MappingFragment StoreEntitySet="libro">
+                <ScalarProperty Name="idlibro" ColumnName="idlibro" />
+                <ScalarProperty Name="nombre_libro" ColumnName="nombre_libro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="noticia">
+            <EntityTypeMapping TypeName="codigo_policiaModel.noticia">
+              <MappingFragment StoreEntitySet="noticia">
+                <ScalarProperty Name="idnoticia" ColumnName="idnoticia" />
+                <ScalarProperty Name="nombre_noticia" ColumnName="nombre_noticia" />
+                <ScalarProperty Name="texto_notica" ColumnName="texto_notica" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="requisitos">
+            <EntityTypeMapping TypeName="codigo_policiaModel.requisitos">
+              <MappingFragment StoreEntitySet="requisitos">
+                <ScalarProperty Name="idrequisitos" ColumnName="idrequisitos" />
+                <ScalarProperty Name="nombre_requisitos" ColumnName="nombre_requisitos" />
+                <ScalarProperty Name="descripcion_requisitos" ColumnName="descripcion_requisitos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tipo_usuario">
+            <EntityTypeMapping TypeName="codigo_policiaModel.tipo_usuario">
+              <MappingFragment StoreEntitySet="tipo_usuario">
+                <ScalarProperty Name="idtipo_usuario" ColumnName="idtipo_usuario" />
+                <ScalarProperty Name="nombre_tipo_usuario" ColumnName="nombre_tipo_usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="titulo">
+            <EntityTypeMapping TypeName="codigo_policiaModel.titulo">
+              <MappingFragment StoreEntitySet="titulo">
+                <ScalarProperty Name="idtitulo" ColumnName="idtitulo" />
+                <ScalarProperty Name="nombre_titulo" ColumnName="nombre_titulo" />
+                <ScalarProperty Name="idlibro" ColumnName="idlibro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tramite">
+            <EntityTypeMapping TypeName="codigo_policiaModel.tramite">
+              <MappingFragment StoreEntitySet="tramite">
+                <ScalarProperty Name="idtramite" ColumnName="idtramite" />
+                <ScalarProperty Name="nombre_tramite" ColumnName="nombre_tramite" />
+                <ScalarProperty Name="texto_tramite" ColumnName="texto_tramite" />
+                <ScalarProperty Name="id_titulo" ColumnName="id_titulo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="codigo_policiaModel.usuario">
+              <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="idusuario" ColumnName="idusuario" />
+                <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="contraseña" ColumnName="contraseña" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="tramite_requisito" TypeName="codigo_policiaModel.tramite_requisito" StoreEntitySet="tramite_requisito">
+            <EndProperty Name="requisitos">
+              <ScalarProperty Name="idrequisitos" ColumnName="id_requisito" />
+            </EndProperty>
+            <EndProperty Name="tramite">
+              <ScalarProperty Name="idtramite" ColumnName="id_tramite" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="usuario_articulo" TypeName="codigo_policiaModel.usuario_articulo" StoreEntitySet="usuario_articulo">
+            <EndProperty Name="articulo">
+              <ScalarProperty Name="idarticulo" ColumnName="id_articulo" />
+            </EndProperty>
+            <EndProperty Name="usuario">
+              <ScalarProperty Name="idusuario" ColumnName="id_usuario" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="usuario_noticia" TypeName="codigo_policiaModel.usuario_noticia" StoreEntitySet="usuario_noticia">
+            <EndProperty Name="noticia">
+              <ScalarProperty Name="idnoticia" ColumnName="id_noticia" />
+            </EndProperty>
+            <EndProperty Name="usuario">
+              <ScalarProperty Name="idusuario" ColumnName="id_usuario" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="usuario_tipo_usuario" TypeName="codigo_policiaModel.usuario_tipo_usuario" StoreEntitySet="usuario_tipo_usuario">
+            <EndProperty Name="tipo_usuario">
+              <ScalarProperty Name="idtipo_usuario" ColumnName="idtipo_usuario" />
+            </EndProperty>
+            <EndProperty Name="usuario">
+              <ScalarProperty Name="idusuario" ColumnName="idusuario" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="usuario_tramite" TypeName="codigo_policiaModel.usuario_tramite" StoreEntitySet="usuario_tramite">
+            <EndProperty Name="tramite">
+              <ScalarProperty Name="idtramite" ColumnName="id_tramite" />
+            </EndProperty>
+            <EndProperty Name="usuario">
+              <ScalarProperty Name="idusuario" ColumnName="id_usuario" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
