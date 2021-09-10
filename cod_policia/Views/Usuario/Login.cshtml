@@ -13,12 +13,21 @@
 }
 
 <div class="form-horizontal">
-    <form action="/Usuario/Login" method="post">
+    <form action="@Url.Action("Login", "Usuario")" method="post">
+        @Html.AntiForgeryToken()
         <section class="form-login">
             <h5>Inicia Sesión</h5>
-            <input class="controls" type="text" name="user" value"" placeholder="Usuario" />
-            <input class="controls" type="password" name="password" placeholder="Contraseña" />
-            <input class="buttons" type="submit" name="Ingresar" />
+            <label>Email</label>
+            <input class="controls" type="text" name="user" value"" placeholder="Ingrese el correo" /><br />
+            <label>Contraseña</label>
+            <input class="controls" type="password" name="password" placeholder="Ingrese su contraseña" /><br />
+            <input class="btn btn-success" type="submit" name="" value="Ingresar" />
+            <p>
+                @Html.ActionLink("Regístrate!!", "Registro")
+            </p>
+            <p>
+                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+            </p>
         </section>
     </form>
 </div>
